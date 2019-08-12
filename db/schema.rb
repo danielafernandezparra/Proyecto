@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_12_021326) do
+ActiveRecord::Schema.define(version: 2019_08_12_021744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "customers", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.integer "phone"
+    t.string "address"
+    t.integer "rut"
+    t.integer "passport"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "quotations", force: :cascade do |t|
+    t.bigint "customer_id"
+    t.date "date"
+    t.integer "value"
+    t.string "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_quotations_on_customer_id"
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
@@ -36,4 +57,5 @@ ActiveRecord::Schema.define(version: 2019_08_12_021326) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "quotations", "customers"
 end
